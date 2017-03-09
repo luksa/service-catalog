@@ -43,6 +43,8 @@ func SendRequest(c *http.Client, method string, url string, object interface{}) 
 		return nil, fmt.Errorf("Failed to create request object: %s", err.Error())
 	}
 
+	req.Header.Set("Content-Type", "application/json")
+
 	resp, err := c.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("Failed to send request: %s", err.Error())
@@ -85,6 +87,7 @@ func BodyToObject(r *http.Request, object interface{}) error {
 // passed in 'object'
 func ResponseBodyToObject(r *http.Response, object interface{}) error {
 	body, err := ioutil.ReadAll(r.Body)
+	fmt.Println("Response body: " + string(body))
 	if err != nil {
 		return err
 	}
